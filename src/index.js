@@ -1,56 +1,99 @@
+/* eslint-disable import/named */
 /* eslint-disable comma-dangle */
 import "./style.css";
+import { uiManager } from "./uiManager";
 
 const searchBar = document.querySelector("input");
 const form = document.querySelector("form");
+const toggle = document.querySelector("input.toggle");
+let metricWeather;
+let imperialWeather;
+let currentWeather;
 
 class WeatherObject {
   constructor(
-    cityName,
-    countryName,
+    location,
     temp,
     feelsLike,
     humidity,
     weatherDescription,
-    weatherMain
+    weatherMain,
+    icon
   ) {
-    this.cityName = cityName;
-    this.countryName = countryName;
-    this.temp = temp;
-    this.feelsLike = feelsLike;
+    this.location = location;
+    this.temp = temp.toFixed();
+    this.feelsLike = feelsLike.toFixed();
     this.humidity = humidity;
     this.weatherMain = weatherMain;
     this.weatherDescription = weatherDescription;
+    this.icon = icon;
   }
 }
 
 async function makeApiCall(cityName) {
   const apiKey = "7fdbc7aa6a75a22aa698b65b12ba530c";
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`,
+
+  const metricResponse = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`,
     { mode: "cors" }
   );
-  const responseData = await response.json();
+  const metricData = await metricResponse.json();
 
-  return responseData;
+  const imperialResponse = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`,
+    { mode: "cors" }
+  );
+  const imperialData = await imperialResponse.json();
+
+  if (metricData.cod === "404") {
+    return false;
+  }
+  console.log(metricData);
+
+  metricWeather = new WeatherObject(
+    `${metricData.name}, ${metricData.sys.country}`,
+    metricData.main.temp,
+    metricData.main.feels_like,
+    metricData.main.humidity,
+    metricData.weather[0].description,
+    metricData.weather[0].main,
+    metricData.weather[0].icon
+  );
+
+  imperialWeather = new WeatherObject(
+    `${imperialData.name}, ${imperialData.sys.country}`,
+    imperialData.main.temp,
+    imperialData.main.feels_like,
+    imperialData.main.humidity,
+    imperialData.weather[0].description,
+    imperialData.weather[0].main,
+    imperialData.weather[0].icon
+  );
+  return true;
 }
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  makeApiCall(searchBar.value).then((result) => {
-    if (result.cod === "404") {
+  uiManager.startLoading();
+  
+  makeApiCall(searchBar.value, "C").then((result) => {
+    searchBar.value = "";
+    uiManager.endLoading();
+    if (result === false) {
       console.log("not found");
+      uiManager.notFoundError();
       return;
     }
-    const resultObj = new WeatherObject(
-      result.name,
-      result.sys.country,
-      result.main.temp,
-      result.main.feels_like,
-      result.main.humidity,
-      result.weather[0].description,
-      result.weather[0].main
-    );
-    console.log(resultObj);
+    currentWeather = metricWeather;
+    uiManager.updateCard(currentWeather);
   });
+});
+
+toggle.addEventListener("click", () => {
+  if (currentWeather === metricWeather) {
+    currentWeather = imperialWeather;
+  } else {
+    currentWeather = metricWeather;
+  }
+  uiManager.updateCard(currentWeather);
 });
