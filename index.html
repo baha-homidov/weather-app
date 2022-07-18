@@ -10,20 +10,79 @@
   <body>
     <div class="app">
       <form>
-        <input type="text" name="city-name" id="city-name" required placeholder="City Name">
-        <button type="submit" class="submit"><img src="assets/search.png" alt="" class="icon"></button>
+        <input
+          type="text"
+          name="city-name"
+          id="city-name"
+          required
+          placeholder="City Name"
+        />
+        <button type="submit" class="submit">
+          <img src="assets/search.png" alt="" class="icon" />
+        </button>
       </form>
-      <div class="weather-card">
+      <div class="loader hide"></div>
+      <div class="error-card hide animate-bottom">
+        <div class="title">Location not found</div>
+        <img src="assets/404.png" alt="404" />
+      </div>
+      <div class="weather-card animate-bottom">
         <div class="location">Khujand, TJ</div>
         <div class="curr-temperature">35°</div>
-        <img src="assets/icon.png" alt="weather-icon" class="weather-icon">
+        <img src="assets/icon.png" alt="weather-icon" class="weather-icon" />
         <div class="feels-like">Feels like 40°</div>
         <div class="weather-conditions">Clear Sky</div>
         <label class="toggle">
-          <input type="checkbox">
+          <input type="checkbox" class="toggle" />
           <span class="labels" celcius="C°" fahrenheit="F°"></span>
         </label>
       </div>
+      <div class="area">
+        <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+      <!-- <div class="forecast-card animate-bottom">
+        <div class="entry">
+          <div class="day">Weekday</div>
+          <img src="#" alt="#">
+          <div class="temp-max">43°</div>
+          <div class="temp-min">33°</div>
+        </div>
+        <div class="entry">
+          <div class="day">Weekday</div>
+          <img src="#" alt="#">
+          <div class="temp-max">43°</div>
+          <div class="temp-min">33°</div>
+        </div>
+        <div class="entry">
+          <div class="day">Weekday</div>
+          <img src="#" alt="#">
+          <div class="temp-max">43°</div>
+          <div class="temp-min">33°</div>
+        </div>
+        <div class="entry">
+          <div class="day">Weekday</div>
+          <img src="#" alt="#">
+          <div class="temp-max">43°</div>
+          <div class="temp-min">33°</div>
+        </div>
+        <div class="entry">
+          <div class="day">Weekday</div>
+          <img src="#" alt="#">
+          <div class="temp-max">43°</div>
+          <div class="temp-min">33°</div>
+        </div>
+      </div> -->
     </div>
   </body>
 </html>
