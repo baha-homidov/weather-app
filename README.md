@@ -2,7 +2,8 @@
 
 A simple weather app developed to practice using APIs.
 
-![Screen Shot 2022-12-04 at 15 27 37](https://user-images.githubusercontent.com/96972109/205481533-1be20720-a1da-4324-b846-5593697f3e1c.png)
+![Screen Shot 2022-12-04 at 16 38 01](https://user-images.githubusercontent.com/96972109/205481604-59bc7ed9-6799-4fab-8a66-ac8424259c19.png)
+
 
 
 
